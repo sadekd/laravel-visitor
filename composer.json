@@ -1,0 +1,31 @@
+{
+    "name": "sadekd/laravel-visitor",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Šádek",
+            "email": "me@danielsadek.cz"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^5.8",
+        "illuminate/database": "^5.8",
+        "illuminate/http": "^5.8",
+        "torann/geoip": "^1.0",
+        "geoip2/geoip2": "^2.9",
+        "jenssegers/agent": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "SadekD\\LaravelVisitor\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SadekD\\LaravelVisitor\\LaravelVisitorServiceProvider"
+            ]
+        }
+    }
+}
