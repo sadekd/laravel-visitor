@@ -19,8 +19,12 @@ class LaravelVisitorServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/laravel-visitor.php' => config_path('laravel-visitor.php'),
-        ]);
+        ], 'config');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        if (!class_exists('CreateVisitorsTables')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_visitors_tables.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_visitors_tables.php'),
+            ], 'migrations');
+        }
     }
 }

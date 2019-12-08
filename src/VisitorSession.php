@@ -9,22 +9,23 @@ use SadekD\LaravelVisitor\Visitor\VisitorSessionDTO;
 
 class VisitorSession
 {
-    private const KEY = Constant::VISITOR_SESSION_KEY;
     private $session;
+    private $key;
 
     public function __construct(Session $session)
     {
         $this->session = $session;
+        $this->key = config('laravel-visitor.session_key');
     }
 
     public function exists(): bool
     {
-        return $this->session->exists(self::KEY);
+        return $this->session->exists($this->key);
     }
 
     public function put(VisitorSessionDTO $visitorSessionDTO): void
     {
-        $this->session->put(self::KEY, $visitorSessionDTO->toArray());
+        $this->session->put($this->key, $visitorSessionDTO->toArray());
     }
 
     public function putFromVisitor(Visitor $visitor): void
@@ -34,7 +35,7 @@ class VisitorSession
 
     public function get(): VisitorSessionDTO
     {
-        return VisitorSessionDTO::fromArray($this->session->get(self::KEY));
+        return VisitorSessionDTO::fromArray($this->session->get($this->key));
     }
 
 }
