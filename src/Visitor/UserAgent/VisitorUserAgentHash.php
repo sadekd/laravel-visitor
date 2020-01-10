@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace SadekD\LaravelVisitor\Utils;
+namespace SadekD\LaravelVisitor\Visitor\UserAgent;
 
 use Illuminate\Http\Request;
 
-final class VisitorUserAgentHash
+class VisitorUserAgentHash
 {
     public static function fromRequest(Request $request): string
     {

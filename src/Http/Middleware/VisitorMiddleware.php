@@ -7,11 +7,11 @@ use Closure;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 use SadekD\LaravelVisitor\Constant;
-use SadekD\LaravelVisitor\Factories\VisitorFactory;
-use SadekD\LaravelVisitor\Factories\VisitorIpAddressFactory;
-use SadekD\LaravelVisitor\Factories\VisitorUserAgentFactory;
-use SadekD\LaravelVisitor\Models\Visitor;
-use SadekD\LaravelVisitor\Utils\VisitorUserAgentHash;
+use SadekD\LaravelVisitor\Visitor\IpAddress\VisitorIpAddressFactory;
+use SadekD\LaravelVisitor\Visitor\UserAgent\VisitorUserAgentFactory;
+use SadekD\LaravelVisitor\Visitor\UserAgent\VisitorUserAgentHash;
+use SadekD\LaravelVisitor\Visitor\Visitor;
+use SadekD\LaravelVisitor\Visitor\VisitorFactory;
 use SadekD\LaravelVisitor\VisitorSession;
 
 class VisitorMiddleware

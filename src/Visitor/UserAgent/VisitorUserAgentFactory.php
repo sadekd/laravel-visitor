@@ -1,12 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace SadekD\LaravelVisitor\Factories;
+namespace SadekD\LaravelVisitor\Visitor\UserAgent;
 
 use Illuminate\Http\Request;
 use SadekD\LaravelVisitor\Constant;
-use SadekD\LaravelVisitor\Models\VisitorUserAgent;
-use SadekD\LaravelVisitor\Utils\VisitorUserAgentHash;
 
 class VisitorUserAgentFactory
 {

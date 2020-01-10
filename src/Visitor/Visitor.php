@@ -1,10 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace SadekD\LaravelVisitor\Models;
+namespace SadekD\LaravelVisitor\Visitor;
 
 use Illuminate\Database\Eloquent\Model;
 use SadekD\LaravelVisitor\Constant;
+use SadekD\LaravelVisitor\Visitor\IpAddress\VisitorIpAddress;
+use SadekD\LaravelVisitor\Visitor\Locale\VisitorLocale;
+use SadekD\LaravelVisitor\Visitor\UserAgent\VisitorUserAgent;
 
 class Visitor extends Model
 {

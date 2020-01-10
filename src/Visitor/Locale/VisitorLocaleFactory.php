@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace SadekD\LaravelVisitor\Factories;
+namespace SadekD\LaravelVisitor\Visitor\Locale;
 
 use Illuminate\Http\Request;
 use SadekD\LaravelVisitor\Constant;
-use SadekD\LaravelVisitor\Models\VisitorLocale;
 
 class VisitorLocaleFactory
 {

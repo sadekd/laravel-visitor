@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace SadekD\LaravelVisitor\Factories;
+namespace SadekD\LaravelVisitor\Visitor;
 
 use Illuminate\Http\Request;
 use SadekD\LaravelVisitor\Constant;
-use SadekD\LaravelVisitor\Models\Visitor;
+use SadekD\LaravelVisitor\Visitor\IpAddress\VisitorIpAddressFactory;
+use SadekD\LaravelVisitor\Visitor\Locale\VisitorLocaleFactory;
+use SadekD\LaravelVisitor\Visitor\UserAgent\VisitorUserAgentFactory;
 
 class VisitorFactory
 {

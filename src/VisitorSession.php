@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace SadekD\LaravelVisitor;
 
 use Illuminate\Contracts\Session\Session;
-use SadekD\LaravelVisitor\Models\Visitor;
+use SadekD\LaravelVisitor\Visitor\Visitor;
 use SadekD\LaravelVisitor\Visitor\VisitorSessionDTO;
 
 class VisitorSession

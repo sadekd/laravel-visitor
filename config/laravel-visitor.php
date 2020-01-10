@@ -2,7 +2,7 @@
 
 return [
     'allow_bots' => false,
-    'geoip_enabled' => true,
+    'geoip_enabled' => false,
 
     'session_key' => 'visitor',
 

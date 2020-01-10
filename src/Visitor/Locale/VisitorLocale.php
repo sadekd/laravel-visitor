@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SadekD\LaravelVisitor\Models;
+namespace SadekD\LaravelVisitor\Visitor\Locale;
 
 use Illuminate\Database\Eloquent\Model;
 use SadekD\LaravelVisitor\Constant;

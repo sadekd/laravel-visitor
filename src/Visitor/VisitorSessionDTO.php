@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace SadekD\LaravelVisitor\Visitor;
 
 use SadekD\LaravelVisitor\Constant;
-use SadekD\LaravelVisitor\Models\Visitor;
 
 class VisitorSessionDTO
 {
