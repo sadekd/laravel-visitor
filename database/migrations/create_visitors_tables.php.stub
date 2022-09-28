@@ -1,69 +1,83 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use SadekD\LaravelVisitor\Constant;
-use SadekD\LaravelVisitor\Utils\TableWithPrefix;
 
-class CreateVisitorsTables extends TableWithPrefix
+class CreateVisitorsTables extends Migration
 {
     public function up()
     {
-        Schema::create($this->prefix . '_ips', function (Blueprint $table) {
-            $table->bigIncrements(Constant::ID_COLUMN_NAME)->index();
-            $table->ipAddress(Constant::IP_ADDRESS_COLUMN_NAME)->unique()->index();
-            $table->json(Constant::GEOIP_COLUMN_NAME)->nullable();
-
+        Schema::create(config('laravel-visitor.visitors_table_name'), function (Blueprint $table) {
+            $table->id(Constant::ID_COLUMN_NAME);
+//            $table->uuid(Constant::UUID_COLUMN_NAME)->unique();
             $table->timestamp(Constant::CREATED_AT_COLUMN_NAME);
         });
 
-        Schema::create($this->prefix . '_agents', function (Blueprint $table) {
-            $table->bigIncrements(Constant::ID_COLUMN_NAME)->index();
+        $this->createNormalizedTables();
+
+        Schema::create(config('laravel-visitor.sessions_table_name'), function (Blueprint $table) {
+            $table->id(Constant::ID_COLUMN_NAME);
+            $table->foreignId(Constant::VISITOR_ID_COLUMN_NAME);
+
+            $table->foreignId(Constant::IP_ID_COLUMN_NAME)->nullable();
+            $table->foreignId(Constant::AGENT_ID_COLUMN_NAME)->nullable();
+            $table->foreignId(Constant::LOCALE_ID_COLUMN_NAME)->nullable();
+
+            $table->timestamp(Constant::CREATED_AT_COLUMN_NAME);
+
+            $table->foreign(Constant::VISITOR_ID_COLUMN_NAME)
+                ->references(Constant::ID_COLUMN_NAME)
+                ->on(config('laravel-visitor.visitors_table_name'))
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->foreign(Constant::IP_ID_COLUMN_NAME)
+                ->references(Constant::ID_COLUMN_NAME)
+                ->on(config('laravel-visitor.ips_table_name'))
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+
+            $table->foreign(Constant::AGENT_ID_COLUMN_NAME)
+                ->references(Constant::ID_COLUMN_NAME)
+                ->on(config('laravel-visitor.agents_table_name'))
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+
+            $table->foreign(Constant::LOCALE_ID_COLUMN_NAME)
+                ->references(Constant::ID_COLUMN_NAME)
+                ->on(config('laravel-visitor.locales_table_name'))
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+        });
+    }
+
+    private function createNormalizedTables()
+    {
+        Schema::create(config('laravel-visitor.ips_table_name'), function (Blueprint $table) {
+            $table->id(Constant::ID_COLUMN_NAME);
+            $table->string(Constant::IP_ADDRESS_COLUMN_NAME)->unique();
+            $table->timestamp(Constant::CREATED_AT_COLUMN_NAME);
+        });
+
+        Schema::create(config('laravel-visitor.agents_table_name'), function (Blueprint $table) {
+            $table->id(Constant::ID_COLUMN_NAME);
+            $table->string(Constant::USER_AGENT_HASH_COLUMN_NAME)->unique();
             $table->text(Constant::USER_AGENT_COLUMN_NAME);
-            $table->string(Constant::USER_AGENT_HASH_COLUMN_NAME)->unique()->index();
-
             $table->timestamp(Constant::CREATED_AT_COLUMN_NAME);
         });
 
-        Schema::create($this->prefix . '_locales', function (Blueprint $table) {
-            $table->bigIncrements(Constant::ID_COLUMN_NAME)->index();
-            $table->string(Constant::VISITOR_LOCALE_COLUMN_NAME)->unique()->index();
-
+        Schema::create(config('laravel-visitor.locales_table_name'), function (Blueprint $table) {
+            $table->id(Constant::ID_COLUMN_NAME);
+            $table->string(Constant::LOCALE_COLUMN_NAME)->unique();
             $table->timestamp(Constant::CREATED_AT_COLUMN_NAME);
-        });
-
-        Schema::create($this->prefix, function (Blueprint $table) {
-            $table->bigIncrements(Constant::ID_COLUMN_NAME)->index();
-
-            $table->unsignedBigInteger(Constant::VISITOR_IP_ID_COLUMN_NAME)->nullable();
-            $table->unsignedBigInteger(Constant::VISITOR_AGENT_ID_COLUMN_NAME)->nullable();
-            $table->unsignedBigInteger(Constant::VISITOR_LOCALE_ID_COLUMN_NAME)->nullable();
-            $table->unsignedBigInteger(Constant::COOKIE_VISITOR_ID_COLUMN_NAME)->nullable();
-
-            $table->timestamps();
-
-            $table->foreign(Constant::VISITOR_IP_ID_COLUMN_NAME)
-                ->references(Constant::ID_COLUMN_NAME)
-                ->on($this->prefix . '_ips')
-                ->onDelete('set null');
-
-            $table->foreign(Constant::VISITOR_AGENT_ID_COLUMN_NAME)
-                ->references(Constant::ID_COLUMN_NAME)
-                ->on($this->prefix . '_agents')
-                ->onDelete('set null');
-
-            $table->foreign(Constant::VISITOR_LOCALE_ID_COLUMN_NAME)
-                ->references(Constant::ID_COLUMN_NAME)
-                ->on($this->prefix . '_locales')
-                ->onDelete('set null');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists($this->prefix);
-        Schema::dropIfExists($this->prefix . '_ips');
-        Schema::dropIfExists($this->prefix . '_agents');
-        Schema::dropIfExists($this->prefix . '_locales');
+        Schema::dropIfExists(config('laravel-visitor.sessions_table_name'));
+        Schema::dropIfExists(config('laravel-visitor.visitors_table_name'));
     }
 }
