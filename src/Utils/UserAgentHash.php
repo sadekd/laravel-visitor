@@ -14,6 +14,6 @@ class UserAgentHash
 
     public static function fromString(string $userAgent): string
     {
-        return md5($userAgent);
+        return (new Hasher())->hash($userAgent);
     }
 }

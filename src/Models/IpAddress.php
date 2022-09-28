@@ -6,6 +6,7 @@ namespace SadekD\LaravelVisitor\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use SadekD\LaravelVisitor\Constant;
+use SadekD\LaravelVisitor\Utils\Hasher;
 
 class IpAddress extends Model
 {
@@ -23,10 +24,9 @@ class IpAddress extends Model
 
     public static function firstOrCreateFromRequest(Request $request): self
     {
+        $ip = $request->getClientIp();
         return self::firstOrCreate([
-            Constant::IP_ADDRESS_COLUMN_NAME => config('laravel-visitor.hash_ips')
-                ? md5($request->getClientIp())
-                : $request->getClientIp(),
+            Constant::IP_ADDRESS_COLUMN_NAME => config('laravel-visitor.hash_ips') ? (new Hasher())->hash($ip) : $ip,
         ]);
     }
 }
